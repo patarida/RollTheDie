@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ทอยลูกเต๋า</string>
+    <string name="Select">เลือก</string>
+    <string name="Add">เพิ่มลูกเต๋า</string>
+    <string name="roll1">1 ครั้ง</string>
+    <string name="roll2">2 ครั้ง</string>
+    <string name="history">ผลลัพธ์ก่อนหน้า</string>
+    <string name="clear">ล้างผลลัพธ์</string>
+    <string name="reset">ตั้งค่าเริ่มต้น</string>
+</resources>

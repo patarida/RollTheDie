@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="Select die" />
+            android:text="@string/Select" />
 
         <Spinner
             android:id="@+id/spinner"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="Add new die"
+            android:text="@string/Add"
             android:textSize="14sp" />
 
         <EditText
@@ -72,14 +72,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
-            android:text="1 roll" />
+            android:text="@string/roll1" />
 
         <Button
             android:id="@+id/button_roll2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
-            android:text="2 rolls" />
+            android:text="@string/roll2" />
 
     </LinearLayout>
     <LinearLayout
@@ -105,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="History:"/>
+        android:text="@string/history"/>
 
     <TextView
         android:id="@+id/tv_history_result"
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Clear history"
+                android:text="@string/clear"
                 app:icon="@drawable/baseline_delete" />
             <Button
                 android:id="@+id/button_reset"
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
-                android:text="Reset Dice"
+                android:text="@string/reset"
                 app:icon="@drawable/baseline_reset"/>
         </LinearLayout>
 </LinearLayout>

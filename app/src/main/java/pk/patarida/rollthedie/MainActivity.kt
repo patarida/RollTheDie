@@ -8,8 +8,8 @@
 // problem8: reset die (optional)
 //      problem 9: if side is not already in the array, added it, else, create alert dialogue.
 // problem10: change to night theme
-// problem11: translation
-// problem12: sae sipnner to pref
+//      problem11: translation
+//      problem12: save sipnner to pref
 package pk.patarida.rollthedie
 
 import android.content.Context
@@ -97,8 +97,9 @@ class MainActivity : AppCompatActivity() {
                     //Log.i("click", sideArray.toString())
                     adapter.notifyDataSetChanged()
                     Toast.makeText(applicationContext, "${side}-sided die is added",Toast.LENGTH_SHORT).show()
-
                 }
+                //editText.setText("0", BufferType.EDITABLE); /*// May be unecessary... */
+                binding.editTextNumber.text.clear()
             }
         }
 

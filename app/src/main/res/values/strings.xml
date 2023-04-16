@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">RollTheDie</string>
+    <string name="Select">Select die</string>
+    <string name="Add">Add new die</string>
+    <string name="roll1">1 roll</string>
+    <string name="roll2">2 rolls</string>
+    <string name="history">History:</string>
+    <string name="clear">Clear history</string>
+    <string name="reset">Reset dice</string>
 </resources>
