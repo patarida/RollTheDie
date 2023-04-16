@@ -1,12 +1,15 @@
 //      problem1: how to add the new die and it sort to the list. (optional)
 //      problem2: how to get the die roll and show the result.
 //      problem3: the display should be clear before showing the new result.
-// problem4: the result should show on the history result.
-// problem5: the history should be clear after clicking the button
-// problem6: data can be saved, ???
+//      problem4: the result should show on the history result.
+//      problem5: the history should be clear after clicking the button
+// problem6: data can be saved, (optional)
 // problem7: menu & setting to save or not (optional)
 // problem8: reset die (optional)
-// problem 9: if side is not already in the array, added it, else, create alert dialogue.
+//      problem 9: if side is not already in the array, added it, else, create alert dialogue.
+// problem10: change to night theme
+// problem11: translation
+// problem12: sae sipnner to pref
 package pk.patarida.rollthedie
 
 import android.content.Context
@@ -67,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         adapter = ArrayAdapter<Int>(this, android.R.layout.simple_dropdown_item_1line, sideArray )
 
         // Add array to spinner
-        val spinner = binding.spinner
+        spinner = binding.spinner
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -77,11 +80,26 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        binding.buttonReset.setOnClickListener {
-            sideArray = mutableListOf(4, 6, 8, 10, 12, 20)
-            adapter =
-                ArrayAdapter<Int>(this, android.R.layout.simple_dropdown_item_1line, sideArray)
-            adapter.notifyDataSetChanged()
+
+        // add new die
+        binding.buttonAdd.setOnClickListener{
+            // read the editText value
+            val sideString = binding.editTextNumber.text.toString()
+            if (sideString.trim().isNotEmpty()) {
+                val side = sideString.toInt()
+                // if side is not already in an array, then add !!!!
+                if (sideArray.contains(side)){
+                    Toast.makeText(applicationContext, "${side}-sided die already exists!",Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    sideArray.add(side)
+                    sideArray.sort()
+                    //Log.i("click", sideArray.toString())
+                    adapter.notifyDataSetChanged()
+                    Toast.makeText(applicationContext, "${side}-sided die is added",Toast.LENGTH_SHORT).show()
+
+                }
+            }
         }
 
         // 1 roll
@@ -107,26 +125,16 @@ class MainActivity : AppCompatActivity() {
             tvResult2.text = ""
             tvResult3.text = ""
         }
-
-        // add new die
-        binding.buttonAdd.setOnClickListener{
-            // read the editText value
-            val sideString = binding.editTextNumber.text.toString()
-            if (sideString.trim().isNotEmpty()) {
-                val side = sideString.toInt()
-                // if side is not already in an array, then add !!!!
-                if (sideArray.contains(side)){
-                    Toast.makeText(applicationContext, "${side}-sided die already exists!",Toast.LENGTH_SHORT).show()
-                }
-                else{
-                    sideArray.add(side)
-                    sideArray.sort()
-                    //Log.i("click", sideArray.toString())
-                    adapter.notifyDataSetChanged()
-                    Toast.makeText(applicationContext, "${side}-sided die is added",Toast.LENGTH_SHORT).show()
-                }
-            }
+        // remove the added die back to defualt.
+        binding.buttonReset.setOnClickListener {
+            sideArray = mutableListOf(4, 6, 8, 10, 12, 20)
+            adapter =
+                ArrayAdapter<Int>(this, android.R.layout.simple_dropdown_item_1line, sideArray)
+            adapter.notifyDataSetChanged()
+            spinner.adapter = adapter
         }
+
+
     }
 
 
@@ -140,6 +148,13 @@ class MainActivity : AppCompatActivity() {
             editor.putString("result2", tvResult2.text.toString())
             editor.putString("result3", tvResult3.text.toString())
             editor.putString("history", allResult)
+
+            // This two lines are from chatgpt
+            // Convert the MutableList<Int> to Set<String> of comma-separated values
+            val integerSet = sideArray.map { it.toString() }.toSet()
+            // Store the Set<String> in SharedPreferences
+            editor.putStringSet("integerSet", integerSet)
+
             editor.apply()
         } else {
             editor.clear()
@@ -150,12 +165,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        super.onResume()
         binding.spinner.getItemAtPosition(sharedPref.getInt("spinner",0) )
         tvResult1.text = sharedPref.getString("result1", "")
         tvResult2.text = sharedPref.getString("result2", "")
         tvResult3.text = sharedPref.getString("result3", "")
         tvHist.text = sharedPref.getString("history", "")
-        super.onResume()
+        allResult = tvHist.text.toString()
+
+        // This 4 lines are from chatgpt
+        // Retrieve the Set<String> from SharedPreferences
+        val integerSet = sharedPref.getStringSet("integerSet", emptySet())
+
+        // Convert the Set<String> to MutableList<Int>
+        sideArray  = integerSet?.mapNotNull { it.toIntOrNull() }?.toMutableList() ?: mutableListOf()
+        sideArray.sort()
+
+        // Create a new ArrayAdapter with the retrieved integerList
+        adapter = ArrayAdapter<Int>(this, android.R.layout.simple_dropdown_item_1line, sideArray )
+
+        // Set the ArrayAdapter to your ListView or other AdapterView
+        spinner.adapter = adapter
+
     }
 
     private fun updateTextViewWithValues(value1: String, value2: String? = null, textView: TextView) {
@@ -171,31 +202,4 @@ class MainActivity : AppCompatActivity() {
         // Update the text view with the constructed string
         tvHist.text = allResult
     }
-
-
-
 }
-
-
-
-/*
-
-
-
-Depending on your choice, you may need to add a Button to actually roll and display the result
-For more marks, allow the user to enter their own number of sides of dice
-For full marks, store a String of the entered values (eg myVals = “2, 14, 24”; and save it in SharedPreferences)
-There is a second option for less marks:
-Before adding the ability to add custom dice, get just the basics to work. This submission will be worth part marks
-
-How to generate random numbers. maxValue should be the number of sides on the die. This still needs to be converted to a String:
-randomVal = ((Math.random() * maxVal) + 1)
-Required Elements
-A way to select which dice to roll
-OPTIONAL: Add a second 10 sided die which rolls numbers in 10s (10, 20, 30…) instead of 1- 10
-OPTIONAL: For an added challenge, a “true 10 sided die” has the numbers 0- 9. When rolling a 10 sided die, only show results for 0-9 instead of 1- 10 (or 00- 90)
-A way to roll the selected die and display 1 result
-A way to roll the selected die and display 2 results at the same time
-Switch, Checkbox, second Button
-A way to display the results
- */
