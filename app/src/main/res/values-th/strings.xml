@@ -8,4 +8,5 @@
     <string name="history">ผลลัพธ์ก่อนหน้า</string>
     <string name="clear">ล้างผลลัพธ์</string>
     <string name="reset">ตั้งค่าเริ่มต้น</string>
+    <string name="settings">ตั้งค่า</string>
 </resources>

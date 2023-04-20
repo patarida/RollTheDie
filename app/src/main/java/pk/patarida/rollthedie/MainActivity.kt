@@ -23,9 +23,11 @@ import android.graphics.Paint
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.view.menu.MenuBuilder
 //import androidx.preference.PreferenceManager
 import pk.patarida.rollthedie.databinding.ActivityMainBinding
 import java.util.*
@@ -134,8 +136,6 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
             spinner.adapter = adapter
         }
-
-
     }
 
 
@@ -202,5 +202,23 @@ class MainActivity : AppCompatActivity() {
 
         // Update the text view with the constructed string
         tvHist.text = allResult
+    }
+
+    // add menu options
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+            when(item.itemId){
+                R.id.setting->{
+                    // Activate SettingsActivity layout
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                    Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show()
+                }
+            }
+            return super.onOptionsItemSelected(item)
     }
 }
